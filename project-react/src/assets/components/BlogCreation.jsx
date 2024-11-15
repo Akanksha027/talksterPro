@@ -11,27 +11,36 @@ const BlogCreation = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (!title || !content) {
       setError("All fields are required!");
       return;
     }
     setError("");
-
+  
     const blogData = { title, content };
-
+    
+    // Get the token from localStorage
+    const token = localStorage.getItem("authToken");
+    
+    if (!token) {
+      setError("No token found. Please log in again.");
+      return;
+    }
+  
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/posts`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
         },
         body: JSON.stringify(blogData),
       });
-
+  
       if (response.ok) {
         console.log("Blog post submitted successfully");
-
+  
         setTitle("");
         setContent("");
         navigate("/blog");
@@ -45,7 +54,7 @@ const BlogCreation = () => {
       setError("An unexpected error occurred.");
     }
   };
-
+  
   return (
     <BlogWrapper>
       <div className="container">

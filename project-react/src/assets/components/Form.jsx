@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useUser } from "../context/UserContext"; // If you're using context to manage user state
+import { useUser } from "../context/UserContext"; // Ensure this is correctly set up
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -21,18 +21,25 @@ const Login = () => {
         username,
         password,
       });
-      
+
+      // Extract token and user data from response
       const { token, user } = response.data;
-      localStorage.setItem("authToken", 'guptt_raaz'); 
+
+      // Save token to localStorage
+      localStorage.setItem("authToken", token);
+
+      // Update user context
       setUser(user);
 
       setSuccess("Login successful!");
 
+      // Redirect to profile page after a delay
       setTimeout(() => {
         navigate("/profile");
       }, 1500);
     } catch (error) {
-      setError(error.response?.data?.message || "Login failed");
+      const errorMessage = error.response?.data?.error || "Login failed. Please try again.";
+      setError(errorMessage);
     }
   };
 
