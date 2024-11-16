@@ -1,20 +1,27 @@
-const mongoose = require('mongoose');
-require('dotenv').config();  // Load environment variables from the .env file
+const mongoose = require("mongoose");
 
-const connectDB = async () => {
-  const uri = process.env.MONGODB_URI;  // Access the MongoDB URI from .env
+mongoose.connect("mongodb+srv://akankshasingh0085:vishu%40vishu@cluster0.xhsvl.mongodb.net/talkster")
 
-  if (!uri) {
-    console.error("MongoDB URI is missing in the .env file!");
-    return;
-  }
+const PostSchema = new mongoose.Schema({
+  title: String,
+  content: String,
+  author: String,
+  data: {type: Date, default: Date.now}
+});
 
-  try {
-    await mongoose.connect(uri, {});
-    console.log('Connected to MongoDB Atlas successfully!');
-  } catch (err) {
-    console.error('Error connecting to MongoDB Atlas:', err.message);
-  }
+const Post = mongoose.model('Post', PostSchema);
+
+
+const userSchema = new mongoose.Schema({
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true }
+});
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = mongoose.model('User', userSchema);
+
+module.exports = {
+  Post,
+  User
 };
-
-module.exports = connectDB;

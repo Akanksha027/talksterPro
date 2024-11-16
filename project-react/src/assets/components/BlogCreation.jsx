@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const BlogCreation = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [error, setError] = useState(""); // Error state for validation
+  const [error, setError] = useState(""); 
 
   const navigate = useNavigate();
 
@@ -20,7 +20,6 @@ const BlogCreation = () => {
   
     const blogData = { title, content };
     
-    // Get the token from localStorage
     const token = localStorage.getItem("authToken");
     
     if (!token) {
@@ -33,7 +32,7 @@ const BlogCreation = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // Pass the token in the Authorization header
+          "Authorization": `Bearer ${token}`, 
         },
         body: JSON.stringify(blogData),
       });

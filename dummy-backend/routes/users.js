@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
-const authenticateToken = require('../middlewares/authenticateToken'); // Middleware for token authentication
+const authenticateToken = require('../middlewares/authenticateToken');
 const router = express.Router();
 
 // Registration route
@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
 // Get all users
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find(); // Fetch all users
+    const users = await User.find();
     res.status(200).json(users);
   } catch (error) {
     console.error('Error fetching users:', error.message);
